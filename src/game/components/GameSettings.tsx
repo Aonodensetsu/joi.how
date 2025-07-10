@@ -6,6 +6,7 @@ import {
   DurationSettings,
   EventSettings,
   HypnoSettings,
+  HypnoSpiralSettings,
   ImageSettings,
   PaceSettings,
   PlayerSettings,
@@ -40,6 +41,30 @@ const StyledGameSettingsDialog = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
 `;
+
+const GameSettingsDialog: React.FC<GameSettingsDialogProps> = props => {
+  return (
+    <Dialog
+      dismissable
+      {...props}
+      title={'Game Settings'}
+      content={
+        <StyledGameSettingsDialog>
+          <PaceSettings />
+          <DurationSettings />
+          <PlayerSettings />
+          <EventSettings />
+          <HypnoSettings />
+          <HypnoSpiralSettings />
+          <ClimaxSettings />
+          <BoardSettings />
+          <VibratorSettings />
+          <ImageSettings />
+        </StyledGameSettingsDialog>
+      }
+    />
+  );
+};
 
 export const GameSettings = () => {
   const [open, setOpen] = useState(false);
