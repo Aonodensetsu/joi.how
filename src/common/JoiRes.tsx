@@ -97,6 +97,10 @@ export class JoiResElement extends LitElement {
           ?autoplay=${this.autoplay}
           ?loop=${this.loop}
           ?muted=${this.muted}
+          .muted=${
+            /* The muted property seems to suffer from a race condition, so we additionally set it via property */
+            this.muted
+          }
           ?playsinline=${this.playsinline}
           @loadedmetadata=${this.onVideoMeta}
           @error=${this.onError}
