@@ -14,17 +14,17 @@ const StyledGameHypno = motion(styled.div`
 `);
 
 // custom text mode vars
-const FADE_TIME = 0.2
-let custom_opacity = 0
+const FADE_TIME = 0.2;
+let custom_opacity = 0;
 
 export const GameHypnoText = () => {
-  const [hypno] = useSetting('hypno')
+  const [hypno] = useSetting('hypno');
   const [current, setCurrent] = useGameValue('currentHypno');
   const [phase] = useGameValue('phase');
   const [intensity] = useGameValue('intensity');
   const translate = useTranslate();
 
-  const startTime = useMemo(() => Date.now(), [])
+  const startTime = useMemo(() => Date.now(), []);
 
   const phrase = useMemo(() => {
     if (hypno.textType !== GameHypnoType.custom) {
@@ -32,28 +32,40 @@ export const GameHypnoText = () => {
       if (phrases.length <= 0) return '';
       return translate(phrases[current % phrases.length]);
     }
-    const s_el = (Date.now() - startTime) / 1000
-    const msgs = hypno.textCustom.filter(el => el.start < s_el && (el.start + el.duration) > s_el).sort((a, b) => {
-      if (a.start != b.start) return a.start < b.start ? -1 : 1
-      if (a.duration != b.duration) return a.duration < b.duration ? -1 : 1
-      return a.id < b.id ? -1 : 1
-    })
+    const s_el = (Date.now() - startTime) / 1000;
+    const msgs = hypno.textCustom
+      .filter(el => el.start < s_el && el.start + el.duration > s_el)
+      .sort((a, b) => {
+        if (a.start != b.start) return a.start < b.start ? -1 : 1;
+        if (a.duration != b.duration) return a.duration < b.duration ? -1 : 1;
+        return a.id < b.id ? -1 : 1;
+      });
 
-    const earliestStart = Math.min(...msgs.map(el => el.start))
-    const soonestEnd = Math.min(...msgs.map(el => el.start + el.duration))
-    custom_opacity = Math.max(0.4, Math.min(1, (s_el - earliestStart) / FADE_TIME, (soonestEnd - s_el) / FADE_TIME))
+    const earliestStart = Math.min(...msgs.map(el => el.start));
+    const soonestEnd = Math.min(...msgs.map(el => el.start + el.duration));
+    custom_opacity = Math.max(
+      0,
+      Math.min(
+        0.4,
+        (s_el - earliestStart) / FADE_TIME,
+        (soonestEnd - s_el) / FADE_TIME
+      )
+    );
 
-    return msgs.map(el => el.text).join('\n')
-  }, [current, hypno.textType, translate]);
+    return msgs.map(el => el.text).join('\n');
+  }, [current, hypno.textType, hypno.textCustom, translate, startTime]);
 
   const onTick = useCallback(() => {
-    if (hypno.textType !== GameHypnoType.custom) setCurrent(Math.floor(Math.random() * HypnoPhrases[hypno.textType].length))
-    else setCurrent(p => +!p)
+    if (hypno.textType !== GameHypnoType.custom)
+      setCurrent(
+        Math.floor(Math.random() * HypnoPhrases[hypno.textType].length)
+      );
+    else setCurrent(p => +!p);
   }, [hypno.textType, setCurrent]);
 
   const delay = useMemo(() => {
-    if (hypno.textType !== GameHypnoType.custom) return 3000 - intensity * 29
-    else return 100
+    if (hypno.textType !== GameHypnoType.custom) return 3000 - intensity * 29;
+    else return 100;
   }, [intensity, hypno.textType]);
 
   const enabled = useMemo(
@@ -65,7 +77,7 @@ export const GameHypnoText = () => {
 
   return (
     <>
-      {hypno.textType !== GameHypnoType.custom && (
+      {(hypno.textType !== GameHypnoType.custom && (
         <StyledGameHypno
           key={phrase}
           initial={{ opacity: 0.3 }}
@@ -78,7 +90,7 @@ export const GameHypnoText = () => {
         >
           {phrase}
         </StyledGameHypno>
-      ) || (
+      )) || (
         <StyledGameHypno
           key={phrase}
           initial={{ opacity: 0 }}
@@ -86,13 +98,12 @@ export const GameHypnoText = () => {
           exit={{ opacity: 0 }}
           transition={{
             ease: [0, 0, 1, 1],
-            duration: FADE_TIME
+            duration: FADE_TIME,
           }}
         >
           {phrase}
         </StyledGameHypno>
       )}
     </>
-  )
-}
-
+  );
+};
