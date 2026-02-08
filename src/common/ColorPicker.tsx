@@ -32,12 +32,11 @@ const Checkerboard = styled.div`
 `;
 
 const StyledColorTile = styled.button<{ $active: boolean }>`
-  grid-column: 1 / -1;
   width: 100%;
+  height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background: var(--button-background);
   color: var(--button-color);
   border-radius: var(--border-radius);
   border: none;

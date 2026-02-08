@@ -41,29 +41,6 @@ const StyledGameSettingsDialog = styled.div`
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 400px), 1fr));
 `;
 
-const GameSettingsDialog: React.FC<GameSettingsDialogProps> = props => {
-  return (
-    <Dialog
-      dismissable
-      {...props}
-      title={'Game Settings'}
-      content={
-        <StyledGameSettingsDialog>
-          <PaceSettings />
-          <DurationSettings />
-          <PlayerSettings />
-          <EventSettings />
-          <ClimaxSettings />
-          <BoardSettings />
-          <VibratorSettings />
-          <ImageSettings />
-          <HypnoSettingsContent />
-        </StyledGameSettingsDialog>
-      }
-    />
-  );
-};
-
 export const GameSettings = () => {
   const [open, setOpen] = useState(false);
   const [phase, setPhase] = useGameValue('phase');
@@ -147,11 +124,11 @@ export const GameSettings = () => {
           <DurationSettings />
           <PlayerSettings />
           <EventSettings />
-          <HypnoSettings />
           <ClimaxSettings />
           <BoardSettings />
           <VibratorSettings />
           <ImageSettings />
+          <HypnoSettingsContent />
         </StyledGameSettingsDialog>
       </WaDialog>
     </StyledGameSettings>

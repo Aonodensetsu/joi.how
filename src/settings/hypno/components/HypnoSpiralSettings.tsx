@@ -1,117 +1,150 @@
 import { AnimatePresence, motion } from 'framer-motion';
+import { WaSlider } from '@awesome.me/webawesome/dist/react';
 import styled from 'styled-components';
-
 import {
-  SettingsTile,
   SettingsDescription,
-  ToggleTile,
-  ToggleTileType,
+  Fields,
+  JoiToggleTile,
   SettingsLabel,
-  Slider,
   Measure,
   ColorPicker,
   RGBA,
+  SettingsRow,
 } from '../../../common';
 import { useSetting, subsetting } from '../../SettingsProvider';
 import { defaultTransition } from '../../../utils';
 
-const SliderSettingContainer = styled.div`
+// ----------------------------
+// settings grid but with motion
+const StyledSettingsGrid = motion(styled.div`
   display: grid;
-  grid-template-columns: auto auto auto;
-`;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  column-gap: 1rem;
+
+  & > :not([data-settings-row='true']) {
+    grid-column: 1 / -1;
+  }
+`);
+// ----------------------------
 
 export const HypnoSpiralSettings = () => {
-  const h = useSetting('hypno')
+  const h = useSetting('hypno');
 
-  const [spiralEnabled, setSpiralEnabled] = subsetting(h, 'spiralEnabled')
-  const [spinSpeed, setSpinSpeed] = subsetting(h, 'spiralSpinSpeed')
-  const [throbSpeed, setThrobSpeed] = subsetting(h, 'spiralThrobSpeed')
-  const [throbStrength, setThrobStrength] = subsetting(h, 'spiralThrobStrength')
-  const [zoom, setZoom] = subsetting(h, 'spiralZoom')
-  const [primary, setPrimary] = subsetting(h, 'spiralPrimary')
-  const [secondary, setSecondary] = subsetting(h, 'spiralSecondary')
-  const [rainbowColors, setRainbowColors] = subsetting(h, 'spiralRainbowColors')
-  const [rainbowSaturation, setRainbowSaturation] = subsetting(h, 'spiralRainbowSaturation')
-  const [rainbowLightness, setRainbowLightness] = subsetting(h, 'spiralRainbowLightness')
-  const [rainbowHueSpeed, setRainbowHueSpeed] = subsetting(h, 'spiralRainbowHueSpeed')
+  const [spiralEnabled, setSpiralEnabled] = subsetting(h, 'spiralEnabled');
+  const [spinSpeed, setSpinSpeed] = subsetting(h, 'spiralSpinSpeed');
+  const [throbSpeed, setThrobSpeed] = subsetting(h, 'spiralThrobSpeed');
+  const [throbStrength, setThrobStrength] = subsetting(
+    h,
+    'spiralThrobStrength'
+  );
+  const [zoom, setZoom] = subsetting(h, 'spiralZoom');
+  const [primary, setPrimary] = subsetting(h, 'spiralPrimary');
+  const [secondary, setSecondary] = subsetting(h, 'spiralSecondary');
+  const [rainbowColors, setRainbowColors] = subsetting(
+    h,
+    'spiralRainbowColors'
+  );
+  const [rainbowSaturation, setRainbowSaturation] = subsetting(
+    h,
+    'spiralRainbowSaturation'
+  );
+  const [rainbowLightness, setRainbowLightness] = subsetting(
+    h,
+    'spiralRainbowLightness'
+  );
+  const [rainbowHueSpeed, setRainbowHueSpeed] = subsetting(
+    h,
+    'spiralRainbowHueSpeed'
+  );
 
   return (
-    <SettingsTile label={'Hypno Spiral'}>
+    <Fields label={'Hypno Spiral'}>
       <SettingsDescription>Select your hypno spiral</SettingsDescription>
-      <ToggleTile
+      <JoiToggleTile
         value={spiralEnabled}
         onClick={() => setSpiralEnabled(!spiralEnabled)}
-        type={ToggleTileType.check}
+        type='check'
       >
         <strong>Enable Spiral</strong>
         <p>Display a hypno spiral in the game</p>
-      </ToggleTile>
+      </JoiToggleTile>
       <AnimatePresence>
         {spiralEnabled && (
-          <motion.div
+          <StyledSettingsGrid
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             style={{ gridColumn: '1 / -1' }}
             transition={defaultTransition}
           >
-            <SliderSettingContainer>
+            <SettingsRow>
               <SettingsLabel htmlFor='spinSpeed'>Spin Speed</SettingsLabel>
-              <Slider
+              <WaSlider
                 id='spinSpeed'
                 value={spinSpeed}
-                min='0'
-                step='0.1'
-                max='5'
-                onChange={(value: number) => setSpinSpeed(value)}
+                min={0}
+                step={0.1}
+                max={5}
+                onInput={e => setSpinSpeed(e.currentTarget.value)}
+                style={{ width: '100%' }}
               />
               <Measure value={spinSpeed} chars={3} />
+            </SettingsRow>
+            <SettingsRow>
               <SettingsLabel htmlFor='throbSpeed'>Throb Speed</SettingsLabel>
-              <Slider
+              <WaSlider
                 id='throbSpeed'
                 value={throbSpeed}
-                min='0'
-                step='0.1'
-                max='5'
-                onChange={(value: number) => setThrobSpeed(value)}
+                min={0}
+                step={0.1}
+                max={5}
+                onInput={e => setThrobSpeed(e.currentTarget.value)}
+                style={{ width: '100%' }}
               />
               <Measure value={throbSpeed} chars={3} />
+            </SettingsRow>
+            <SettingsRow>
               <SettingsLabel htmlFor='throbStrength'>
                 Throb Strength
               </SettingsLabel>
-              <Slider
+              <WaSlider
                 id='throbStrength'
                 value={throbStrength}
-                min='0'
-                step='0.1'
-                max='5'
-                onChange={(value: number) => setThrobStrength(value)}
+                min={0}
+                step={0.1}
+                max={5}
+                onInput={e => setThrobStrength(e.currentTarget.value)}
+                style={{ width: '100%' }}
               />
               <Measure value={throbStrength} chars={3} />
+            </SettingsRow>
+            <SettingsRow>
               <SettingsLabel htmlFor='zoom'>Zoom Out</SettingsLabel>
-              <Slider
+              <WaSlider
                 id='zoom'
                 value={zoom}
-                min='0.1'
-                step='0.1'
-                max='5'
-                onChange={(value: number) => setZoom(value)}
+                min={0.1}
+                step={0.1}
+                max={5}
+                onInput={e => setZoom(e.currentTarget.value)}
+                style={{ width: '100%' }}
               />
               <Measure value={zoom} chars={3} />
-            </SliderSettingContainer>
+            </SettingsRow>
             <ColorPicker
               label='Primary Color'
               color={primary}
               onChange={(value: RGBA) => setPrimary(value)}
             />
-            <ToggleTile
+            <JoiToggleTile
               value={rainbowColors}
               onClick={() => setRainbowColors(!rainbowColors)}
-              type={ToggleTileType.check}
+              type='check'
             >
               <strong>Rainbow Colors</strong>
               <p>Use a rainbow cycle for the secondary color</p>
-            </ToggleTile>
+            </JoiToggleTile>
             {!rainbowColors && (
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
@@ -128,56 +161,63 @@ export const HypnoSpiralSettings = () => {
               </motion.div>
             )}
             {rainbowColors && (
-              <motion.div
+              <StyledSettingsGrid
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 exit={{ opacity: 0, height: 0 }}
                 style={{ gridColumn: '1 / -1' }}
                 transition={defaultTransition}
               >
-                <SliderSettingContainer>
+                <SettingsRow>
                   <SettingsLabel htmlFor='rainbowSaturation'>
                     Rainbow Saturation
                   </SettingsLabel>
-                  <Slider
+                  <WaSlider
                     id='rainbowSaturation'
                     value={rainbowSaturation}
-                    min='0'
-                    step='10'
-                    max='200'
-                    onChange={(value: number) => setRainbowSaturation(value)}
+                    min={0}
+                    step={10}
+                    max={200}
+                    onInput={e => setRainbowSaturation(e.currentTarget.value)}
+                    style={{ width: '100%' }}
                   />
                   <Measure value={rainbowSaturation} chars={3} unit='%' />
+                </SettingsRow>
+                <SettingsRow>
                   <SettingsLabel htmlFor='rainbowLightness'>
                     Rainbow Lightness
                   </SettingsLabel>
-                  <Slider
+                  <WaSlider
                     id='rainbowLightness'
                     value={rainbowLightness}
-                    min='0'
-                    step='5'
-                    max='100'
-                    onChange={(value: number) => setRainbowLightness(value)}
+                    min={0}
+                    step={5}
+                    max={100}
+                    onInput={e => setRainbowLightness(e.currentTarget.value)}
+                    style={{ width: '100%' }}
                   />
                   <Measure value={rainbowLightness} chars={3} unit='%' />
+                </SettingsRow>
+                <SettingsRow>
                   <SettingsLabel htmlFor='rainbowHueSpeed'>
                     Rainbow Hue Speed
                   </SettingsLabel>
-                  <Slider
+                  <WaSlider
                     id='rainbowHueSpeed'
                     value={rainbowHueSpeed}
-                    min='0'
-                    step='0.1'
-                    max='5'
-                    onChange={(value: number) => setRainbowHueSpeed(value)}
+                    min={0}
+                    step={0.1}
+                    max={5}
+                    onInput={e => setRainbowHueSpeed(e.currentTarget.value)}
+                    style={{ width: '100%' }}
                   />
                   <Measure value={rainbowHueSpeed} chars={3} />
-                </SliderSettingContainer>
-              </motion.div>
+                </SettingsRow>
+              </StyledSettingsGrid>
             )}
-          </motion.div>
+          </StyledSettingsGrid>
         )}
       </AnimatePresence>
-    </SettingsTile>
+    </Fields>
   );
 };

@@ -1,11 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Fields, SettingsDescription, JoiToggleTile } from '../../common';
+import { Fields, SettingsDescription, JoiToggleTile } from '../../../common';
 import {
   GameHypnoType,
   GameHypnoDescriptions,
   GameHypnoLabels,
-} from '../../types';
-import { useSetting } from '../SettingsProvider';
+} from '../../../types';
+import { useSetting, subsetting } from '../../SettingsProvider';
 import {
   faCat,
   faCow,
@@ -14,18 +14,6 @@ import {
   faPowerOff,
   faGear,
 } from '@fortawesome/free-solid-svg-icons';
-import {
-  SettingsTile,
-  SettingsDescription,
-  ToggleTile,
-  ToggleTileType,
-} from '../../../common';
-import {
-  GameHypnoType,
-  GameHypnoDescriptions,
-  GameHypnoLabels,
-} from '../../../types';
-import { useSetting, subsetting } from '../../SettingsProvider';
 
 export const HypnoTextSettings = () => {
   const [hypno, setHypno] = subsetting(useSetting('hypno'), 'textType');
@@ -68,4 +56,3 @@ export const HypnoTextSettings = () => {
     </Fields>
   );
 };
-
