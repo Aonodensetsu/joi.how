@@ -87,6 +87,25 @@ const Unit = styled.div`
   text-align: right;
 `;
 
+const ScrollDiv = styled.div`
+  width: 100%;
+  max-height: 500px;
+  overflow-y: scroll;
+  scrollbar-width: thin !important;
+  scrollbar-color: var(--background) var(--card-background) !important;
+  &::-webkit-scrollbar {
+    background: var(--card-background) !important;
+    width: 12px !important;
+  }
+  &::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background: var(--background) !important;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    filter: brightness(1.2);
+  }
+`;
+
 export const HypnoCustomTextSettings = () => {
   const h = useSetting('hypno');
   const [hypno] = h;
@@ -161,88 +180,90 @@ export const HypnoCustomTextSettings = () => {
             />
           </SettingsRow>
           <Space size='medium' />
-          <AnimatePresence>
-            {custom.map((el, ix) => {
-              return (
-                <motion.div
-                  key={el.id}
-                  transition={defaultTransition}
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  data-ix={ix}
-                >
-                  <HypnoRow>
-                    <WaButton
-                      style={{ background: 'var(--wa-color-fill-loud)' }}
-                      onClick={() => removeRow(ix)}
-                    >
-                      Delete
-                      <WaIcon slot='end' name='minus' />
-                    </WaButton>
-                    <WaInput
-                      style={{
-                        gridColumn: '2 / -1',
-                        width: '100%',
-                        minWidth: 0,
-                      }}
-                      value={el.text}
-                      placeholder='Hypno text...'
-                      onInput={e =>
-                        updateRow(ix, 'text', e.currentTarget.value ?? '')
-                      }
-                    />
-                    <SettingsLabel htmlFor={`${ix}-start`}>
-                      Start at
-                    </SettingsLabel>
-                    <WaInput
-                      style={{
-                        gridRow: '2',
-                        gridColumn: '2',
-                        width: '100%',
-                        minWidth: 0,
-                      }}
-                      value={el.start.toString()}
-                      onInput={e => {
-                        if (!isNaN(parseFloat(e.currentTarget.value ?? '')))
-                          updateRow(
-                            ix,
-                            'start',
-                            parseFloat(e.currentTarget.value ?? '')
-                          );
-                      }}
-                    />
-                    <Unit style={{ gridRow: '2', gridColumn: '2' }}>s</Unit>
-                    <SettingsLabel
-                      style={{ gridColumn: '3' }}
-                      htmlFor={`${ix}-duration`}
-                    >
-                      Duration
-                    </SettingsLabel>
-                    <WaInput
-                      style={{
-                        gridRow: '2',
-                        gridColumn: '4',
-                        width: '100%',
-                        minWidth: 0,
-                      }}
-                      value={el.duration.toString()}
-                      onInput={e => {
-                        if (!isNaN(parseFloat(e.currentTarget.value ?? '')))
-                          updateRow(
-                            ix,
-                            'duration',
-                            parseFloat(e.currentTarget.value ?? '')
-                          );
-                      }}
-                    />
-                    <Unit style={{ gridRow: '2', gridColumn: '4' }}>s</Unit>
-                  </HypnoRow>
-                  <Space size='medium' />
-                </motion.div>
-              );
-            })}
-          </AnimatePresence>
+          <ScrollDiv>
+            <AnimatePresence>
+              {custom.map((el, ix) => {
+                return (
+                  <motion.div
+                    key={el.id}
+                    transition={defaultTransition}
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    data-ix={ix}
+                  >
+                    <HypnoRow>
+                      <WaButton
+                        style={{ background: 'var(--wa-color-fill-loud)' }}
+                        onClick={() => removeRow(ix)}
+                      >
+                        Delete
+                        <WaIcon slot='end' name='minus' />
+                      </WaButton>
+                      <WaInput
+                        style={{
+                          gridColumn: '2 / -1',
+                          width: '100%',
+                          minWidth: 0,
+                        }}
+                        value={el.text}
+                        placeholder='Hypno text...'
+                        onInput={e =>
+                          updateRow(ix, 'text', e.currentTarget.value ?? '')
+                        }
+                      />
+                      <SettingsLabel htmlFor={`${ix}-start`}>
+                        Start at
+                      </SettingsLabel>
+                      <WaInput
+                        style={{
+                          gridRow: '2',
+                          gridColumn: '2',
+                          width: '100%',
+                          minWidth: 0,
+                        }}
+                        value={el.start.toString()}
+                        onInput={e => {
+                          if (!isNaN(parseFloat(e.currentTarget.value ?? '')))
+                            updateRow(
+                              ix,
+                              'start',
+                              parseFloat(e.currentTarget.value ?? '')
+                            );
+                        }}
+                      />
+                      <Unit style={{ gridRow: '2', gridColumn: '2' }}>s</Unit>
+                      <SettingsLabel
+                        style={{ gridColumn: '3' }}
+                        htmlFor={`${ix}-duration`}
+                      >
+                        Duration
+                      </SettingsLabel>
+                      <WaInput
+                        style={{
+                          gridRow: '2',
+                          gridColumn: '4',
+                          width: '100%',
+                          minWidth: 0,
+                        }}
+                        value={el.duration.toString()}
+                        onInput={e => {
+                          if (!isNaN(parseFloat(e.currentTarget.value ?? '')))
+                            updateRow(
+                              ix,
+                              'duration',
+                              parseFloat(e.currentTarget.value ?? '')
+                            );
+                        }}
+                      />
+                      <Unit style={{ gridRow: '2', gridColumn: '4' }}>s</Unit>
+                    </HypnoRow>
+                    <Space size='medium' />
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
+          </ScrollDiv>
           <WaButton
             style={{
               gridColumn: '1 / -1',
