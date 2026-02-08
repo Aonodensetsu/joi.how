@@ -47,18 +47,20 @@ export const GameHypnoSpiral = () => {
 
   const targetRef = useRef<HTMLDivElement>(null);
 
-  const [spiralEnabled] = useSetting('hypnoSpiralEnabled');
-  const [spinSpeed] = useSetting('hypnoSpiralSpinSpeed');
-  const [throbSpeed] = useSetting('hypnoSpiralThrobSpeed');
-  const [throbStrength] = useSetting('hypnoSpiralThrobStrength');
-  const [zoom] = useSetting('hypnoSpiralZoom');
-  const [primary] = useSetting('hypnoSpiralPrimary');
-  const [secondary] = useSetting('hypnoSpiralSecondary');
+  const [hypno] = useSetting('hypno');
+
+  const spiralEnabled = hypno.spiralEnabled;
+  const spinSpeed = hypno.spiralSpinSpeed;
+  const throbSpeed = hypno.spiralThrobSpeed;
+  const throbStrength = hypno.spiralThrobStrength;
+  const zoom = hypno.spiralZoom;
+  const primary = hypno.spiralPrimary;
+  const secondary = hypno.spiralSecondary;
   const secc = { ...secondary };
-  const [rainbowColors] = useSetting('hypnoSpiralRainbowColors');
-  const [rainbowSaturation] = useSetting('hypnoSpiralRainbowSaturation');
-  const [rainbowLightness] = useSetting('hypnoSpiralRainbowLightness');
-  const [rainbowHueSpeed] = useSetting('hypnoSpiralRainbowHueSpeed');
+  const rainbowColors = hypno.spiralRainbowColors;
+  const rainbowSaturation = hypno.spiralRainbowSaturation;
+  const rainbowLightness = hypno.spiralRainbowLightness;
+  const rainbowHueSpeed = hypno.spiralRainbowHueSpeed;
 
   const iTime = performance.now() / 1000.0;
 

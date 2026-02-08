@@ -2,8 +2,6 @@ export * from './BoardSettings';
 export * from './ClimaxSettings';
 export * from './DurationSettings';
 export * from './EventSettings';
-export * from './HypnoSettings';
-export * from './HypnoSpiralSettings';
 export * from './ImageSettings';
 export * from './PaceSettings';
 export * from './PlayerSettings';

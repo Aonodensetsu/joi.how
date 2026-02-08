@@ -5,8 +5,7 @@ import {
   ClimaxSettings,
   DurationSettings,
   EventSettings,
-  HypnoSettings,
-  HypnoSpiralSettings,
+  HypnoSettingsContent,
   ImageSettings,
   PaceSettings,
   PlayerSettings,
@@ -54,12 +53,11 @@ const GameSettingsDialog: React.FC<GameSettingsDialogProps> = props => {
           <DurationSettings />
           <PlayerSettings />
           <EventSettings />
-          <HypnoSettings />
-          <HypnoSpiralSettings />
           <ClimaxSettings />
           <BoardSettings />
           <VibratorSettings />
           <ImageSettings />
+          <HypnoSettingsContent />
         </StyledGameSettingsDialog>
       }
     />

@@ -12,13 +12,26 @@ import {
   faDog,
   faOtter,
   faPowerOff,
+  faGear,
 } from '@fortawesome/free-solid-svg-icons';
+import {
+  SettingsTile,
+  SettingsDescription,
+  ToggleTile,
+  ToggleTileType,
+} from '../../../common';
+import {
+  GameHypnoType,
+  GameHypnoDescriptions,
+  GameHypnoLabels,
+} from '../../../types';
+import { useSetting, subsetting } from '../../SettingsProvider';
 
-export const HypnoSettings = () => {
-  const [hypno, setHypno] = useSetting('hypno');
+export const HypnoTextSettings = () => {
+  const [hypno, setHypno] = subsetting(useSetting('hypno'), 'textType');
 
   return (
-    <Fields label={'Hypno'} role='radiogroup'>
+    <Fields label={'Hypno Text'} role='radiogroup'>
       <SettingsDescription>Choose a hypno text set</SettingsDescription>
       {Object.keys(GameHypnoType).map(key => {
         const current = GameHypnoType[key as keyof typeof GameHypnoType];
@@ -44,6 +57,8 @@ export const HypnoSettings = () => {
                     return <FontAwesomeIcon icon={faDog} />;
                   case GameHypnoType.femdom:
                     return <FontAwesomeIcon icon={faCat} />;
+                  case GameHypnoType.custom:
+                    return <FontAwesomeIcon icon={faGear} />;
                 }
               })()}
             </span>
@@ -53,3 +68,4 @@ export const HypnoSettings = () => {
     </Fields>
   );
 };
+

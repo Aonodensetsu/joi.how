@@ -11,9 +11,9 @@ import {
   Measure,
   ColorPicker,
   RGBA,
-} from '../../common';
-import { useSetting } from '../SettingsProvider';
-import { defaultTransition } from '../../utils';
+} from '../../../common';
+import { useSetting, subsetting } from '../../SettingsProvider';
+import { defaultTransition } from '../../../utils';
 
 const SliderSettingContainer = styled.div`
   display: grid;
@@ -21,27 +21,19 @@ const SliderSettingContainer = styled.div`
 `;
 
 export const HypnoSpiralSettings = () => {
-  const [spiralEnabled, setSpiralEnabled] = useSetting('hypnoSpiralEnabled');
-  const [spinSpeed, setSpinSpeed] = useSetting('hypnoSpiralSpinSpeed');
-  const [throbSpeed, setThrobSpeed] = useSetting('hypnoSpiralThrobSpeed');
-  const [throbStrength, setThrobStrength] = useSetting(
-    'hypnoSpiralThrobStrength'
-  );
-  const [zoom, setZoom] = useSetting('hypnoSpiralZoom');
-  const [primary, setPrimary] = useSetting('hypnoSpiralPrimary');
-  const [secondary, setSecondary] = useSetting('hypnoSpiralSecondary');
-  const [rainbowColors, setRainbowColors] = useSetting(
-    'hypnoSpiralRainbowColors'
-  );
-  const [rainbowSaturation, setRainbowSaturation] = useSetting(
-    'hypnoSpiralRainbowSaturation'
-  );
-  const [rainbowLightness, setRainbowLightness] = useSetting(
-    'hypnoSpiralRainbowLightness'
-  );
-  const [rainbowHueSpeed, setRainbowHueSpeed] = useSetting(
-    'hypnoSpiralRainbowHueSpeed'
-  );
+  const h = useSetting('hypno')
+
+  const [spiralEnabled, setSpiralEnabled] = subsetting(h, 'spiralEnabled')
+  const [spinSpeed, setSpinSpeed] = subsetting(h, 'spiralSpinSpeed')
+  const [throbSpeed, setThrobSpeed] = subsetting(h, 'spiralThrobSpeed')
+  const [throbStrength, setThrobStrength] = subsetting(h, 'spiralThrobStrength')
+  const [zoom, setZoom] = subsetting(h, 'spiralZoom')
+  const [primary, setPrimary] = subsetting(h, 'spiralPrimary')
+  const [secondary, setSecondary] = subsetting(h, 'spiralSecondary')
+  const [rainbowColors, setRainbowColors] = subsetting(h, 'spiralRainbowColors')
+  const [rainbowSaturation, setRainbowSaturation] = subsetting(h, 'spiralRainbowSaturation')
+  const [rainbowLightness, setRainbowLightness] = subsetting(h, 'spiralRainbowLightness')
+  const [rainbowHueSpeed, setRainbowHueSpeed] = subsetting(h, 'spiralRainbowHueSpeed')
 
   return (
     <SettingsTile label={'Hypno Spiral'}>

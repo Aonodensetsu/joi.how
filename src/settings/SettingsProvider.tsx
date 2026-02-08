@@ -4,6 +4,49 @@ import { RGBA } from '../common';
 import { createLocalStorageProvider, VibrationMode } from '../utils';
 import { interpolateWith } from '../utils/translate';
 
+export interface HypnoTextEntry {
+  id: number;
+  text: string;
+  start: number;
+  duration: number;
+}
+
+export interface HypnoSettingsType {
+  textType: GameHypnoType;
+  textCustomMaster: string;
+  textCustomHands: string;
+  textCustom: HypnoTextEntry[];
+  spiralEnabled: boolean;
+  spiralSpinSpeed: number;
+  spiralThrobSpeed: number;
+  spiralThrobStrength: number;
+  spiralZoom: number;
+  spiralPrimary: RGBA;
+  spiralSecondary: RGBA;
+  spiralRainbowColors: boolean;
+  spiralRainbowSaturation: number;
+  spiralRainbowLightness: number;
+  spiralRainbowHueSpeed: number;
+}
+
+export const defaultHypnoSettings: HypnoSettingsType = {
+  textType: GameHypnoType.joi,
+  textCustomMaster: 'master',
+  textCustomHands: 'hands',
+  textCustom: [],
+  spiralEnabled: true,
+  spiralSpinSpeed: 1,
+  spiralThrobSpeed: 1,
+  spiralThrobStrength: 1,
+  spiralZoom: 1,
+  spiralPrimary: { r: 65, g: 105, b: 225, a: 30 },
+  spiralSecondary: { r: 0, g: 0, b: 0, a: 30 },
+  spiralRainbowColors: false,
+  spiralRainbowSaturation: 100,
+  spiralRainbowLightness: 50,
+  spiralRainbowHueSpeed: 1,
+}
+
 export interface Settings {
   gameDuration: number;
   warmupDuration: number;
@@ -14,18 +57,7 @@ export interface Settings {
   steepness: number;
   timeshift: number;
   events: GameEvent[];
-  hypno: GameHypnoType;
-  hypnoSpiralEnabled: boolean;
-  hypnoSpiralSpinSpeed: number;
-  hypnoSpiralThrobSpeed: number;
-  hypnoSpiralThrobStrength: number;
-  hypnoSpiralZoom: number;
-  hypnoSpiralPrimary: RGBA;
-  hypnoSpiralSecondary: RGBA;
-  hypnoSpiralRainbowColors: boolean;
-  hypnoSpiralRainbowSaturation: number;
-  hypnoSpiralRainbowLightness: number;
-  hypnoSpiralRainbowHueSpeed: number;
+  hypno: HypnoSettingsType;
   gender: PlayerGender;
   body: PlayerBody;
   highRes: boolean;
@@ -45,18 +77,7 @@ export const defaultSettings: Settings = {
   steepness: 0.5,
   timeshift: 0.5,
   events: Object.values(GameEvent),
-  hypno: GameHypnoType.joi,
-  hypnoSpiralEnabled: true,
-  hypnoSpiralSpinSpeed: 1,
-  hypnoSpiralThrobSpeed: 1,
-  hypnoSpiralThrobStrength: 1,
-  hypnoSpiralZoom: 1,
-  hypnoSpiralPrimary: { r: 65, g: 105, b: 225, a: 30 },
-  hypnoSpiralSecondary: { r: 0, g: 0, b: 0, a: 30 },
-  hypnoSpiralRainbowColors: false,
-  hypnoSpiralRainbowSaturation: 100,
-  hypnoSpiralRainbowLightness: 50,
-  hypnoSpiralRainbowHueSpeed: 1,
+  hypno: defaultHypnoSettings,
   gender: PlayerGender.male,
   body: PlayerBody.penis,
   highRes: false,
@@ -76,6 +97,17 @@ export const {
   key: settingsStorageKey,
   defaultData: defaultSettings,
 });
+
+export function subsetting<
+  S extends Record<string, any>,
+  K extends keyof S
+>(
+  [state, setState]: readonly [S, React.Dispatch<React.SetStateAction<S>>],
+  key: K
+) {
+  const set = (v: S[K] | ((prev: S[K]) => S[K])) => setState((p: any) => ({...p, [key]: v instanceof Function ? v(state[key]) : v }))
+  return [state[key], set] as const
+}
 
 const removeTrailingComma = (str: string): string => {
   return str.trim().replace(/,$/, '');
@@ -101,14 +133,16 @@ export const useTranslate = (): ((value: string) => string) => {
             breeding: '',
             maledom: 'master',
             femdom: 'mistress',
-          }[hypno],
+            custom: hypno.textCustomMaster,
+          }[hypno.textType],
           hands: {
             off: 'hands',
             joi: 'hands',
             breeding: 'hands',
             maledom: 'paws',
             femdom: 'paws',
-          }[hypno],
+            custom: hypno.textCustomHands,
+          }[hypno.textType],
           part: {
             penis: 'cock',
             vagina: 'pussy',
